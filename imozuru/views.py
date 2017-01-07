@@ -3,6 +3,7 @@ from flask import Flask, session, redirect, render_template, request
 import os
 import tweepy
 api = ''
+isfirst=True
 def initialize():
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
     CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
@@ -12,9 +13,13 @@ def initialize():
     auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
     global api
     api = tweepy.API(auth)
+    isfirst=False
 
 @app.route('/',methods=['GET','POST'])
 def index():
+    if isfirst:
+        initialize()
+
     if request.method == 'POST':
         if 'keyword' in request.form:
             keyword = request.form['keyword']
@@ -32,6 +37,3 @@ def index():
                 imozuru_max_tweet=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10))
 
     return render_template('index.html')
-
-if __name__ == '__main__':
-    initialize()
