@@ -5,7 +5,6 @@ import sys
 
 
 app = Flask(__name__)
-app.config.from_object('config')
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -14,6 +13,8 @@ ACCESS_SECRET = os.environ['ACCESS_SECRET']
 oauth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(oauth)
 app.secret_key = os.environ['SECRET_KEY']
+
+
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'POST':
