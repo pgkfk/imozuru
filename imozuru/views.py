@@ -9,7 +9,7 @@ CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 ACCESS_SECRET = os.environ['ACCESS_SECRET']
-auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+oauth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(oauth)
 
 @app.route('/',methods=['GET','POST'])
