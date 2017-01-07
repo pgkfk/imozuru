@@ -1,40 +1,79 @@
-from flask import Flask, session, redirect, render_template, request
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Flask+TweepyによるTwitter連携アプリのサンプル．
+連携アプリ認証を行いタイムラインを表示する．
+"""
 import os
+import logging
 import tweepy
-import sys
+from flask import Flask, session, redirect, render_template, request
 
-
-app = Flask(__name__)
+# Consumer Key
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
+# Consumer Secret
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-ACCESS_SECRET = os.environ['ACCESS_SECRET']
-oauth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-api = tweepy.API(oauth)
+# Callback URL (認証後リダイレクトされるURL)
+CALLBACK_URL = 'https://flask-tweepy.herokuapp.com/'  # Heroku上
+# CALLBACK_URL = 'http://localhost:5000/' # ローカル環境
+
+logging.warn('app start!')
+
+# Flask の起動
+app = Flask(__name__)
+# flask の session を使うにはkeyを設定する必要がある．
 app.secret_key = os.environ['SECRET_KEY']
 
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def index():
-    if request.method == 'POST':
-        if 'keyword' in request.form:
-            keyword = request.form['keyword']
-            if keyword:
-                return render_template(
-                    'index.html',
-                    keyword=keyword,
-                    result=api.search(keyword,count=50)
-                    )
-        if 'pull' in request.form:
-            target_tweet_id = request.form['pull']
-            target_status = api.get_status(target_tweet_id)
-            return render_template(
-                'index.html',
-                imozuru_since_tweet=api.user_timeline(target_status.author.id,since_id=target_tweet_id,count=10),
-                imozuru_max_tweet=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10))
+    """ root ページの表示 """
+    # 連携アプリ認証済みなら user の timeline を取得
+    timeline = user_timeline()
 
-    return render_template('index.html')
+    # templates/index.html を使ってレンダリング．
+    return render_template('index.html', timeline=timeline)
 
-if __name__ == '__main__':
-    app.run(debug=False)
+
+@app.route('/twitter_auth', methods=['GET'])
+def twitter_auth():
+    """ 連携アプリ認証用URLにリダイレクト """
+    # tweepy でアプリのOAuth認証を行う
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL)
+
+    try:
+        # 連携アプリ認証用の URL を取得
+        redirect_url = auth.get_authorization_url()
+        # 認証後に必要な request_token を session に保存
+        session['request_token'] = auth.request_token
+    except tweepy.TweepError, e:
+        logging.error(str(e))
+
+    # リダイレクト
+    return redirect(redirect_url)
+
+
+def user_timeline():
+    """ user の timeline のリストを取得 """
+    # request_token と oauth_verifier のチェック
+    token = session.pop('request_token', None)
+    verifier = request.args.get('oauth_verifier')
+    if token is None or verifier is None:
+        return False  # 未認証ならFalseを返す
+
+    # tweepy でアプリのOAuth認証を行う
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL)
+
+    # Access token, Access token secret を取得．
+    auth.request_token = token
+    try:
+        auth.get_access_token(verifier)
+    except tweepy.TweepError, e:
+        logging.error(str(e))
+        return {}
+
+    # tweepy で Twitter API にアクセス
+    api = tweepy.API(auth)
+
+    # user の timeline 内のツイートのリストを最大100件取得して返す
+    return api.user_timeline(count=100)
