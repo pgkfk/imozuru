@@ -5,9 +5,7 @@ import sys
 
 
 app = Flask(__name__)
-
 app.config.from_object('config')
-
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -18,7 +16,6 @@ api = tweepy.API(oauth)
 
 @app.route('/',methods=['GET','POST'])
 def index():
-
     if request.method == 'POST':
         if 'keyword' in request.form:
             keyword = request.form['keyword']
@@ -39,4 +36,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
