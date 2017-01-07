@@ -13,7 +13,7 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 ACCESS_SECRET = os.environ['ACCESS_SECRET']
 oauth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(oauth)
-
+app.secret_key = os.environ['SECRET_KEY']
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'POST':
