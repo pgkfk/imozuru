@@ -31,7 +31,7 @@ def index():
                 return render_template(
                     'index.html',
                     keyword=keyword,
-                    result=api.search(q=keyword,count=50))
+                    result=api.search(keyword,count=50))
         if 'pull' in request.form:
             target_tweet_id = request.form['pull']
             target_status = api.get_status(target_tweet_id)
