@@ -2,9 +2,13 @@ from imozuru import app
 from flask import Flask, session, redirect, render_template, request
 import os
 import tweepy
+import sys
+
 api = ''
 isfirst=True
 def initialize():
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
     CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
