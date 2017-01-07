@@ -14,8 +14,6 @@ api = tweepy.API(oauth)
 
 @app.route('/',methods=['GET','POST'])
 def index():
-    if isfirst:
-        initialize()
 
     if request.method == 'POST':
         if 'keyword' in request.form:
