@@ -7,7 +7,7 @@ import twitter
 
 # api = ''
 # isfirst=True
-# def initialize():
+def initialize():
 #     SECRET_KEY = os.environ['SECRET_KEY']
 #     WTF_CSRF_ENABLED = True
 #     CONSUMER_KEY = os.environ['CONSUMER_KEY']
@@ -19,17 +19,17 @@ import twitter
 #     global api
 #     api = tweepy.API(auth)
 #     isfirst=False
-api = twitter.Api(consumer_key=os.environ['CONSUMER_KEY'],
-                  consumer_secret=os.environ['CONSUMER_SECRET'],
-                  access_token_key=os.environ['ACCESS_TOKEN'],
-                  access_token_secret=os.environ['ACCESS_SECRET']
-                  )
+    api = twitter.Api(consumer_key=os.environ['CONSUMER_KEY'],
+                      consumer_secret=os.environ['CONSUMER_SECRET'],
+                      access_token_key=os.environ['ACCESS_TOKEN'],
+                      access_token_secret=os.environ['ACCESS_SECRET']
+                      )
 
 
 @app.route('/',methods=['GET','POST'])
 def index():
-    # if isfirst:
-    #     initialize()
+    if isfirst:
+        initialize()
 
     # if request.method == 'POST':
     #     if 'keyword' in request.form:
