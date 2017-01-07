@@ -8,8 +8,8 @@ import twitter
 api = ''
 isfirst=True
 def initialize():
-#     SECRET_KEY = os.environ['SECRET_KEY']
-#     WTF_CSRF_ENABLED = True
+    SECRET_KEY = os.environ['SECRET_KEY']
+    WTF_CSRF_ENABLED = True
 #     CONSUMER_KEY = os.environ['CONSUMER_KEY']
 #     CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 #     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
