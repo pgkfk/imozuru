@@ -1,8 +1,12 @@
-from imozuru import app
 from flask import Flask, session, redirect, render_template, request
 import os
 import tweepy
 import sys
+
+
+app = Flask(__name__)
+
+app.config.from_object('config')
 
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
@@ -33,3 +37,6 @@ def index():
                 imozuru_max_tweet=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10))
 
     return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=False)
