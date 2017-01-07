@@ -3,11 +3,11 @@ from flask import Flask, session, redirect, render_template, request
 import os
 import tweepy
 
-# CONSUMER_KEY = os.environ['CONSUMER_KEY']
-# CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+CONSUMER_KEY = os.environ['CONSUMER_KEY']
+CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-# ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-# ACCESS_SECRET = os.environ['ACCESS_SECRET']
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+ACCESS_SECRET = os.environ['ACCESS_SECRET']
 auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
 api = tweepy.API(auth)
