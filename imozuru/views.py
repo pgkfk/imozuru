@@ -14,7 +14,6 @@ def initialize():
     global api
     api = tweepy.API(auth)
     isfirst=False
-    print ACCESS_TOKEN,CONSUMER_KEY
 
 @app.route('/',methods=['GET','POST'])
 def index():
