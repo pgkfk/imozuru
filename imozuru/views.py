@@ -5,8 +5,8 @@ import os
 import sys
 import twitter
 
-# api = ''
-# isfirst=True
+api = ''
+isfirst=True
 def initialize():
 #     SECRET_KEY = os.environ['SECRET_KEY']
 #     WTF_CSRF_ENABLED = True
@@ -16,9 +16,9 @@ def initialize():
 #     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 #     ACCESS_SECRET = os.environ['ACCESS_SECRET']
 #     auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-#     global api
+    global api
 #     api = tweepy.API(auth)
-#     isfirst=False
+    isfirst=False
     api = twitter.Api(consumer_key=os.environ['CONSUMER_KEY'],
                       consumer_secret=os.environ['CONSUMER_SECRET'],
                       access_token_key=os.environ['ACCESS_TOKEN'],
