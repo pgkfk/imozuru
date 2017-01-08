@@ -9,29 +9,10 @@ app = Flask(__name__)
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
 CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-# ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-# ACCESS_SECRET = os.environ['ACCESS_SECRET']
-# auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+
 api = tweepy.API(auth)
 app.secret_key = os.environ['SECRET_KEY']
-# CALLBACK_URL = 'https://imozuru.herokuapp.com/'
 
-# @app.route('/twitter_auth', methods=['GET'])
-# def twitter_auth():
-#     """ 連携アプリ認証用URLにリダイレクト """
-#     # tweepy でアプリのOAuth認証を行う
-#     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL)
-
-#     try:
-#         # 連携アプリ認証用の URL を取得
-#         redirect_url = auth.get_authorization_url()
-#         # 認証後に必要な request_token を session に保存
-#         session['request_token'] = auth.request_token
-#     except tweepy.TweepError, e:
-#         logging.error(str(e))
-
-#     # リダイレクト
-#     return redirect(redirect_url)
 
 
 @app.route('/',methods=['GET','POST'])
