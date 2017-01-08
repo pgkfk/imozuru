@@ -1,23 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Flask + Tweepy Sample Application</title>
+<head lang="ja">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>imozuru</title>
 </head>
 <body>
-  <h1>Flask + Tweepy Sample Application</h1>
-  {% if timeline == False %}
-    <p><a href="{{ url_for('twitter_auth') }}">連携アプリ認証</a></p>
-  {% else %}
-    <!-- 取得した timeline のテキストを表示 -->
-    {% for status in timeline %}
-      <p>{{ status.text }}</p>
-      <hr>
-    {% endfor %}
-  {% endif %}
-  <footer>
-    <small>
-      This application is created by <a href="http://shirokai.hatenablog.com/">しろかい！</a>
-    </small>
-  </footer>
+    <div class="container">
+        <h1>imozuru</h1>
+        <form method="post" action="{{url_for('index')}}">
+            <div class="row">
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" name="keyword" placeholder="input keyword">
+                </div>
+                <div class="col-xs-3">
+                    <input type="submit" class="btn btn-md btn-block btn-primary" value="search tweet">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="container">
+                {% if keyword %}
+                <h3>"{{keyword}}"の検索結果...</h3>
+                <ul>
+                    {% for tweet in result %} 
+                    <blockquote class="twitter-tweet" data-conversation="none">
+                       <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}">https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}</a>
+                   </blockquote>
+                   <form action="{{url_for('index')}}" method="post" name="pull" class="form-inline">
+                    <button type="submit" name="pull" class="btn btn-default" value={{tweet.id}}>引っ張る</button>
+                </form>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>input keyword and press search</p>
+            {% endif %}
+        </div><!-- container -->
+    </div>
+
+    <div class="col-xs-6">
+        <div class="container">
+            {% if imozuru_max_tweet  or imozuru_since_tweet %}
+            <h3>引っ張った結果...</h3>
+            <ul>
+                {% for imo in imozuru_since_tweet %} 
+                <blockquote class="twitter-tweet" data-conversation="none">
+                   <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
+               </blockquote>
+               {% endfor %}
+               {% for imo in imozuru_max_tweet %} 
+               <blockquote class="twitter-tweet" data-conversation="none">
+                   <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
+               </blockquote>
+               {% endfor %}
+           </ul>
+           {% endif %}
+       </div><!-- container -->
+
+   </div>
+   <script src="//code.jquery.com/jquery.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 </body>
 </html>
