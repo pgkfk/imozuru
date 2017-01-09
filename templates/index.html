@@ -28,9 +28,9 @@
                 <ul>
                     {% for tweet in result %} 
                     <blockquote class="twitter-tweet" data-conversation="none">
-                       <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}">https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}</a>
-                   </blockquote>
-                   <form action="{{url_for('index')}}" method="post" name="pull" class="form-inline">
+                        <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}">https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}</a>
+                    </blockquote>
+                    <form action="{{url_for('index')}}" method="post" name="pull" class="form-inline">
                     <button type="submit" name="pull" class="btn btn-default" value={{tweet.id}}>引っ張る</button>
                 </form>
                 {% endfor %}
@@ -43,26 +43,26 @@
 
     <div class="col-xs-6">
         <div class="container">
-            {% if imozuru_max_tweet  or imozuru_since_tweet %}
+            {% if later_tweets or earlier_tweets %}
             <h3>引っ張った結果...</h3>
             <ul>
-                {% for imo in imozuru_since_tweet %} 
+                {% for imo in later_tweets %} 
                 <blockquote class="twitter-tweet" data-conversation="none">
-                   <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
-               </blockquote>
-               {% endfor %}
-               {% for imo in imozuru_max_tweet %} 
-               <blockquote class="twitter-tweet" data-conversation="none">
-                   <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
-               </blockquote>
-               {% endfor %}
-           </ul>
+                    <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
+                </blockquote>
+                {% endfor %}
+                {% for imo in earlier_tweets %} 
+                <blockquote class="twitter-tweet" data-conversation="none">
+                    <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
+                </blockquote>
+                {% endfor %}
+            </ul>
            {% endif %}
-       </div><!-- container -->
+        </div><!-- container -->
 
-   </div>
-   <script src="//code.jquery.com/jquery.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-   <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </div>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 </body>
 </html>

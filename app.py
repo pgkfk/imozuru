@@ -31,8 +31,9 @@ def index():
             target_status = api.get_status(target_tweet_id)
             return render_template(
                 'index.html',
-                imozuru_since_tweet=api.user_timeline(target_status.author.id,since_id=target_tweet_id,count=10),
-                imozuru_max_tweet=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10))
+                later_tweets=api.user_timeline(target_status.author.id,since_id=target_tweet_id,count=10),
+                earlier_tweets=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10)
+                )
 
     return render_template('index.html')
 
