@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, session, redirect, render_template, request
+from flask import Flask, session, redirect, render_template, request, Response
 import os
 import tweepy
 import sys
@@ -13,12 +13,13 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 api = tweepy.API(auth)
 app.secret_key = os.environ['SECRET_KEY']
 
-
+keyword = ''
 
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'POST':
         if 'keyword' in request.form:
+            global keyword
             keyword = request.form['keyword']
             if keyword:
                 return render_template(
@@ -31,6 +32,8 @@ def index():
             target_status = api.get_status(target_tweet_id)
             return render_template(
                 'index.html',
+                keyword=keyword,
+                result=api.search(keyword,count=50),
                 later_tweets=api.user_timeline(target_status.author.id,since_id=target_tweet_id,count=10),
                 earlier_tweets=api.user_timeline(target_status.author.id,max_id=target_tweet_id,count=10)
                 )
@@ -38,4 +41,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

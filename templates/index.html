@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>imozuru</h1>
-        <form method="post" action="{{url_for('index')}}">
+        <form method="post" action="{{url_for('index')}}" id="form1">
             <div class="row">
                 <div class="col-xs-3">
                     <input type="text" class="form-control" name="keyword" placeholder="input keyword">
@@ -34,10 +34,10 @@
                     <button type="submit" name="pull" class="btn btn-default" value={{tweet.id}}>引っ張る</button>
                 </form>
                 {% endfor %}
-            </ul>
-            {% else %}
-            <p>input keyword and press search</p>
-            {% endif %}
+                </ul>
+                {% else %}
+                <p>input keyword and press search</p>
+                {% endif %}
         </div><!-- container -->
     </div>
 
@@ -64,5 +64,9 @@
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    <!-- <script type="text/javascript" src="../static/subapp.js"></script> -->
+<script type="text/javascript">
+
+</script>
 </body>
 </html>
