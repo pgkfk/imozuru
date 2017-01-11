@@ -9,58 +9,30 @@
 <body>
     <div class="container">
         <h1>imozuru</h1>
-        <form method="post" action="{{url_for('index')}}" id="form1">
+        <form class="form-search">
             <div class="row">
                 <div class="col-xs-3">
-                    <input type="text" class="form-control" name="keyword" placeholder="input keyword">
+                    <input type="text" class="form-control" placeholder="input keyword" id="txtKeyword" required autofocus>
                 </div>
                 <div class="col-xs-3">
-                    <input type="submit" class="btn btn-md btn-block btn-primary" value="search tweet">
+                    <button class="btn btn-md btn-block btn-primary search" type="button">search tweet</button>
                 </div>
             </div>
         </form>
+
     </div>
     <div class="row">
         <div class="col-xs-6">
             <div class="container">
-                {% if keyword %}
-                <h3>"{{keyword}}"の検索結果...</h3>
-                <ul>
-                    {% for tweet in result %} 
-                    <blockquote class="twitter-tweet" data-conversation="none">
-                        <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}">https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id }}</a>
-                    </blockquote>
-                    <form action="{{url_for('index')}}" method="post" name="pull" class="form-inline">
-                    <button type="submit" name="pull" class="btn btn-default" value={{tweet.id}}>引っ張る</button>
-                </form>
-                {% endfor %}
-                </ul>
-                {% else %}
-                <p>input keyword and press search</p>
-                {% endif %}
-        </div><!-- container -->
-    </div>
+                <ul id="searchResults"></ul>
+            </div><!-- container -->
+        </div><!-- row -->
+        <div class="col-xs-6">
+            <div class="container">
+                <ul id="pullResults"></ul>
 
-    <div class="col-xs-6">
-        <div class="container">
-            {% if later_tweets or earlier_tweets %}
-            <h3>引っ張った結果...</h3>
-            <ul>
-                {% for imo in later_tweets %} 
-                <blockquote class="twitter-tweet" data-conversation="none">
-                    <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
-                </blockquote>
-                {% endfor %}
-                {% for imo in earlier_tweets %} 
-                <blockquote class="twitter-tweet" data-conversation="none">
-                    <a href="https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}">https://twitter.com/{{ imo.user.screen_name }}/status/{{ imo.id }}</a>
-                </blockquote>
-                {% endfor %}
-            </ul>
-           {% endif %}
-        </div><!-- container -->
-
-    </div>
+            </div><!-- container -->
+        </div>
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
